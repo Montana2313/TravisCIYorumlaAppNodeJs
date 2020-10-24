@@ -5,7 +5,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const body_parser = require('body-parser');
 const mongoose = require('mongoose');
-
+const dotnet = require('dotenv');
 const indexRouter = require('./routes/index');
 const signInRouter = require('./routes/accountManager');
 
@@ -15,6 +15,7 @@ const usersRouter = require('./DataManager/UserManager');
 
 const app = express();
 
+dotnet.config()
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(body_parser.json());
 
 
-mongoose.connect('mongodb://localhost/yorumladatabase' ,{ useNewUrlParser: true } , { useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/yorumladatabase' ,{ useNewUrlParser: true } , { useUnifiedTopology: true })
     .then(() => {
         console.log('Mongo db bağlantısı gerçekleşti.')
     })
@@ -61,6 +62,8 @@ app.use(function(req, res, next) {
 });
 
 // error handler
+const port = process.env.PORT || 4000;
+
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
@@ -70,9 +73,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(4000 , ()=> {
-  console.log("Server workşng");
-});
+app.listen(port);
 
 
 module.exports = app;
