@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="50de2165-1e7a-4988-ae82-5d9e16cfbf77" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+  <component name="ProjectId" id="1h8YiM91V81JT3RLoZ4O3WBdpB8" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="12.11.1" />
+    <property name="javascript.nodejs.core.library.typings.version" value="12.11.1" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/DataManager" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="50de2165-1e7a-4988-ae82-5d9e16cfbf77" name="Default Changelist" comment="" />
+      <created>1599394314010</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1599394314010</updated>
+      <workItem from="1599394315437" duration="3799000" />
+      <workItem from="1600025340087" duration="312000" />
+      <workItem from="1600119538734" duration="98000" />
+      <workItem from="1601219489553" duration="9106000" />
+      <workItem from="1601328928476" duration="21000" />
+      <workItem from="1601577480580" duration="82000" />
+      <workItem from="1601711761219" duration="4339000" />
+      <workItem from="1601810597802" duration="6810000" />
+      <workItem from="1601934009690" duration="131000" />
+      <workItem from="1602012053507" duration="398000" />
+      <workItem from="1602018805919" duration="1139000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1222" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601811899417">
+      <screen x="-1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="-1222" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/-1920.0.1920.1080/0.0.1680.1050@-1920.0.1920.1080" timestamp="1601811899417" />
+    <state x="341" y="147" key="SettingsEditor" timestamp="1599395351135">
+      <screen x="0" y="23" width="1680" height="971" />
+    </state>
+    <state x="341" y="147" key="SettingsEditor/0.23.1680.971@0.23.1680.971" timestamp="1599395351135" />
+    <state x="-1295" y="255" key="run.anything.popup" timestamp="1601233182687">
+      <screen x="-1920" y="23" width="1920" height="1001" />
+    </state>
+    <state x="-1295" y="255" key="run.anything.popup/-1920.23.1920.1001/0.23.1680.1027@-1920.23.1920.1001" timestamp="1601233182687" />
+    <state x="-1063" y="272" width="766" height="697" key="search.everywhere.popup" timestamp="1601219841831">
+      <screen x="-1920" y="23" width="1920" height="1001" />
+    </state>
+    <state x="-1063" y="272" width="766" height="697" key="search.everywhere.popup/-1920.23.1920.1001/0.23.1680.1027@-1920.23.1920.1001" timestamp="1601219841831" />
+    <state x="750" y="265" width="670" height="676" key="search.everywhere.popup/0.23.1680.971@0.23.1680.971" timestamp="1599401939958" />
+  </component>
+</project>
