@@ -4,6 +4,11 @@ const dataManager = require('../DataManager/userDataManager');
 
 const bcryptJS = require('bcryptjs');
 
+
+router.get('/' , (req , res ) => {
+    res.send('Travis deneme _ 123');
+})
+
 router.post('/forgetPassword' , (req , res ) => {
     const user_id = req.body['userID'];
     const newPass = req.body['password'];

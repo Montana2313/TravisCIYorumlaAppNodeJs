@@ -10,10 +10,16 @@ const dotnet = require('dotenv');
 const keyConfig = require('./config/key');
 
 //MiddleWare 
+
 const verify_token = require('./middleware/verify-token');
+
+
+
+//Router
 const booksRouter  = require('./routes/bookRoute');
 const usersRouter  = require('./routes/userRoute');
 const authorRouter = require('./routes/authorRoute');
+
 
 const app = express();
 
@@ -42,6 +48,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/yorumladatabase
     .catch((err) => {
       console.log('Hata gerçekleşti')
     });
+
 app.use('/users',usersRouter);
 app.use('/api' , verify_token);
 app.use('/api/books',booksRouter);
