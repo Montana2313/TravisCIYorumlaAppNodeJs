@@ -11,9 +11,6 @@ const keyConfig = require('./config/key');
 
 //MiddleWare 
 const verify_token = require('./middleware/verify-token');
-
-
-const indexRouter  = require('./routes/index');
 const booksRouter  = require('./routes/BookManager');
 const usersRouter  = require('./routes/UserManager');
 const authorRouter = require('./routes/AuthorManager');
@@ -61,7 +58,6 @@ app.use((err , req , res ,next ) => {
    });
 });
  */
-app.use('/', indexRouter);
 app.use('/users',usersRouter);
 app.use('/api' , verify_token);
 app.use('/api/books',booksRouter);
