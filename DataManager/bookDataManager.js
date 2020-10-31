@@ -5,6 +5,7 @@ const bookComment = require('../Models/Book_Command');
 
 
 const authorDataManager = require('../DataManager/authorDataManager');
+const userDataManager = require('../DataManager/userDataManager');
 
 
 
@@ -49,6 +50,18 @@ class bookDataManager{
             } , (err , data) => {
                 if (err) 
                     reject(err);
+
+                for (let item in data){
+                    const id = data[item]['comment_by'];
+                    // burada hata varrrrrrr
+                    userDataManager.getUserById(id).then((userInfo) => {
+                        data[item]['comment_by'] = userInfo['name'];
+                    }).catch((err) => {
+                        reject("hata");
+                    })
+                }
+
+
                 resolve(data);
             })
         })

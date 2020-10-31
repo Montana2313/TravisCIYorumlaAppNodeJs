@@ -136,7 +136,6 @@ router.get('/search/:search' , (req ,res)=> {
 router.get('/getComment/:bookId' , (req , res) =>{
     const bookId =  req.params.bookId;
     dataManager.getBookComments(bookId).then((data) => {
-        console.log(data);
         res.json(data);
     }).catch((err) => {
         res.json({
