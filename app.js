@@ -11,9 +11,9 @@ const keyConfig = require('./config/key');
 
 //MiddleWare 
 const verify_token = require('./middleware/verify-token');
-const booksRouter  = require('./routes/BookManager');
-const usersRouter  = require('./routes/UserManager');
-const authorRouter = require('./routes/AuthorManager');
+const booksRouter  = require('./routes/bookRoute');
+const usersRouter  = require('./routes/userRoute');
+const authorRouter = require('./routes/authorRoute');
 
 const app = express();
 
@@ -42,22 +42,6 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/yorumladatabase
     .catch((err) => {
       console.log('Hata gerçekleşti')
     });
-
-//:-> middleware kısmı
-// İlk parametre hangi url üzerinden yapılacağı (eğer bişey yazılmaz ise tüm hepsi için alacaktır.)
-/*
-const isLoginMiddleWare = require('./Helper/isLogin');
-
-app.use(isLoginMiddleWare); // tüm için böyle yada istenen yerin içersinde çağırabiliriz.
-
-app.use((err , req , res ,next ) => {
-   res.status(err.statusCode);
-   res.render('error' , {
-        message:err.statusMessage,
-        statusCode: err.statusCode
-   });
-});
- */
 app.use('/users',usersRouter);
 app.use('/api' , verify_token);
 app.use('/api/books',booksRouter);
