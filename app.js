@@ -6,17 +6,27 @@ const logger = require('morgan');
 const body_parser = require('body-parser');
 const mongoose = require('mongoose');
 const dotnet = require('dotenv');
-const indexRouter = require('./routes/index');
-const signInRouter = require('./routes/accountManager');
 
-//
-const booksRouter = require('./DataManager/BookManager');
-const usersRouter = require('./DataManager/UserManager');
+const keyConfig = require('./config/key');
+
+//MiddleWare 
+const verify_token = require('./middleware/verify-token');
+
+
+const indexRouter  = require('./routes/index');
+const booksRouter  = require('./routes/BookManager');
+const usersRouter  = require('./routes/UserManager');
+const authorRouter = require('./routes/AuthorManager');
 
 const app = express();
 
 dotnet.config()
 // view engine setup
+
+//Config
+app.set('api_webToken_key' , keyConfig.api_webToken_key);
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -53,8 +63,9 @@ app.use((err , req , res ,next ) => {
  */
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
-app.use('/account',signInRouter);
-app.use('/books',booksRouter);
+app.use('/api' , verify_token);
+app.use('/api/books',booksRouter);
+app.use('/api/author' , authorRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

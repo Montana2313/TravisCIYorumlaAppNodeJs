@@ -1,19 +1,40 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 //model
 const bookModel = require('../Models/Books');
+
+const dataManager = require('../DataManager/bookDataManager');
+
+
 router.post('/setBook' , function (req ,res , next){
+
+    const bookName = req.body['bookName'];
+    const bookAbout = req.body['bookAbout'];
+    const author = req.body['author'];
+
+    const rate = req.body['rate'];
+    const rateCount = req.body['rateCount'];
+    const viewCount = req.body['viewCount'];
+    const tags = req.body['tags'];
+    const photo_background_URL = req.body['photo_background_URL'];
+
+    const photo_URL = req.body['photo_URL'];
+
+
+
     const book = new bookModel({
-        bookName:'Yeni Kitap Adı',
-        bookAbout: 'Kitap açıklamaıs',
-        author : 'Özgür Elmaslı',
-        rate : 4.7,
-        rateCount : 100,
-        viewCount : 1000,
-        tags : ['aksiyon', 'macera' , 'eğtim'] ,
+        bookId : mongoose.Types.ObjectId(),
+        bookName: bookName,
+        bookAbout: bookAbout,
+        author : author,
+        rate : rate,
+        rateCount : rateCount,
+        viewCount : viewCount,
+        tags : tags ,
         urls : {
-            photo_background_URL : 'www.google.com',
-            photo_URL : 'www.google.com'
+            photo_background_URL : photo_background_URL,
+            photo_URL : photo_URL
         }
     });
     book.save((err , data) => {
@@ -25,13 +46,14 @@ router.post('/setBook' , function (req ,res , next){
 });
 
 router.get('/getAll' , (req, res, next) => {
-    bookModel.find({}, (err,data)=>{
-        if (err)
-            res.send(err);
-        else {
-            res.json(data);
-        }
-    });
+    dataManager.getAll().then((data)=> {
+        res.json(data);
+    }).catch((err)=> {
+        res.json({
+            success : false,
+            explain : "Bulunamadı"
+        })
+    })
 });
 
 router.get('/getById/:id' , (req, res, next) => {
@@ -95,6 +117,53 @@ router.get('/getByPage/:pageNumber' ,(req, res) => {
    }).limit(1)
        .skip(2);
 });
+
+
+router.get('/search/:search' , (req ,res)=> {
+    const text = req.params.search;
+    dataManager.search(text)
+    .then((data)=> {
+        res.json(data);
+    })
+    .catch((error)=> {
+        res.json({
+            success : false,
+            explain : error
+        })
+    })
+});
+
+router.get('/getComment/:bookId' , (req , res) =>{
+    const bookId =  req.params.bookId;
+    dataManager.getBookComments(bookId).then((data) => {
+        console.log(data);
+        res.json(data);
+    }).catch((err) => {
+        res.json({
+            success :false , 
+            error : err
+        })
+    })
+})
+
+router.post('/setComment' , (req ,res) => {
+    const userId  = req.body['userId'];
+    const comment = req.body['comment'];
+    const bookId = req.body['bookId'];
+
+    dataManager.setBookComment(userId , bookId , comment)
+    .then((data) => {
+        res.json(data);
+    })
+    .catch((err) => {
+        res.json({
+            success :false ,
+            error : err
+        })
+    })
+})
+
+
 router.get('/aggregate', (req, res) => {
    bookModel.aggregate([
            {

@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const BookSchema = new Schema(
     {
+        bookId : {
+            type : String ,
+            required : false,
+            unique : true,
+        },
         bookName :{
             type : String ,
             required : true,

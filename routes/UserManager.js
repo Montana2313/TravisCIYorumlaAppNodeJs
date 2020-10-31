@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const dataManager = require('../DataManager/userDataManager');
 
+const bcryptJS = require('bcryptjs');
+
 router.post('/forgetPassword' , (req , res ) => {
     const user_id = req.body['userID'];
     const newPass = req.body['password'];
@@ -30,29 +32,29 @@ router.post('/signUp', (req, res) => {
 
 
     dataManager.signup(name , surname , email,password,photo_URL ,isPremium)
-    .then((data)=>{
-        res.json(data);
-    })
-    .catch((error)=>{
-        res.json({
-            success : false,
-            explain : error
-        });
-    })
+        .then((data)=>{
+            res.json(data);
+        })
+        .catch((error)=>{
+            res.json({
+                success : false,
+                explain : error
+            });
+        })
 });
 
 router.get('/signIn/:email/:password', (req, res) => {
    const email = req.params.email;
    const password = req.params.password;
-   dataManager.signIn(email, password).then((data)=> {
-       res.json(data);
-   })
-   .catch((err)=> {
-         res.json({
+    dataManager.signIn(email, password).then((data)=> {
+    res.json(data);
+    })
+    .catch((err)=> {
+        res.json({
             success : false,
             explain : 'Email / Şifre yanlış'
-         });
-   })
+        });
+    })
 });
 
 router.get('/getUserInfoById/:id' , (req,res) =>{

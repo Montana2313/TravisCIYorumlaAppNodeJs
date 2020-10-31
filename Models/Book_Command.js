@@ -9,6 +9,10 @@ const Book_Comment_Schema = new Schema(
             type :String,
             required : true
         },
+        comment : {
+            type : String ,
+            required : true
+        },
         commentToBookId : {
             type : String,
             required : true

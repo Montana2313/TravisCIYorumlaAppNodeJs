@@ -5,6 +5,10 @@ const Schema = mongoose.Schema;
 
 const AuthorSchema = new Schema(
     {
+        author_id : {
+            type  :String ,
+            required : true
+        },
         author_name : {
             type : String ,
             required : true
