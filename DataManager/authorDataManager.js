@@ -4,72 +4,74 @@ class AuthorDataManager {
 
     async getAll(){
         return new Promise((resolve , reject) => {
-            authorModel.find({} , (err , data) => {
-                if (err)
-                    reject(null);
+            authorModel.getAll().then((data) => {
                 resolve(data);
+            }).catch((err) => {
+                reject(err);
             })
         })
     }
     async isUserAuthor(id){
         return new Promise((resolve , reject) => {
-            authorModel.find({
-                author_id : id
-            } , (err , data) => {
-                if (err)
-                    reject(err);
+            authorModel.isUserAuthor(id)
+            .then((data) => {
                 resolve(data);
+            }).catch((err) => {
+                reject(err);
             })
         })
     }
+
+    async getAuthorByName(name){
+        return new Promise((resolve ,reject) => {
+            authorModel.getAuthorByName(name)
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((err) => {
+                reject(err);
+            })
+        })
+    }
+
+
+
     async setAuthor(userId , name , desc , picURL){
         return new Promise((resolve , reject) => {
-          const author = new authorModel({
-              author_id : userId,
-              author_name : name, 
-              author_description : desc,
-              author_photo_URL : picURL
-          })  
-
-          author.save((err ,data) => {
-              if (err)
-                 reject(err);
-              resolve(data);
-          })
+          authorModel.setAuthor(userId, name,
+            desc,picURL)
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((err) => {
+                reject(err);
+            })
         })
     }
  
     async updateDescription(id,desc){
         return new Promise((resolve , reject) => {
-            authorModel.updateOne({
-                author_id : id
-            },{
-                author_description : desc
-            } , (err , data) => {
-                if (err)
-                     reject(err);
-                 resolve(data);
+            authorModel.updateDescription(id,desc)
+            .then((data) => {
+                resolve(data);
+            })
+            .catch((err) => {
+                reject(err);
             })
         })
     }
 
     async updatePhotoURL(id , url){
         return new Promise((resolve , reject) => {
-            authorModel.updateOne({
-                author_id : id
-            },{
-                author_photo_URL : url
-            } , (err , data) => {
-                if (err)
-                     reject(err);
-                 resolve(data);
+            authorModel.updatePhotoURL(id ,url)
+            .then((data)=> {
+                resolve(data);
+            })
+            .catch((err) => {
+                reject(err);
             })
         })
     }
-    
-
-
-
 }
 
 

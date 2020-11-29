@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const dataManager = require('../DataManager/authorDataManager');
 
 
@@ -35,15 +36,16 @@ router.post('/setAuthor' , (req ,res) => {
     })
 })
 
-
-
-
-
-
-
-
-
-
-
-
+router.post('/getAuthor'  , (req ,res) => {
+    const author_name = req.body['author_name'];
+    console.log(author_name);
+    dataManager.getAuthorByName(author_name).then((data)=>{
+        res.json(data);
+    }).catch((err)=> {
+        res.json({
+            success :false ,
+            error : err
+        })
+    })
+})
 module.exports = router;

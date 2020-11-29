@@ -32,18 +32,8 @@ class userDataManager{
         
         return new Promise((resolve , reject) => {
             bcryptJS.hash(password , 10).then((hash) => {
-                const model = new userModel({
-                    name : name,
-                    surname : surname,
-                    email : email,
-                    password : hash,
-                    photo_URL : photo_URL,
-                    isPremium : isPremium
-                })
-                model.save((err , data) => {
-                    if (err)
-                        reject("Hata");
-                    
+                userModel.signUp(name,surname ,email , hash , photo_URL , isPremium)
+                .then((data) => {
                     const userId = data['userID'];
                     const payLoad = {
                         email
@@ -56,14 +46,16 @@ class userDataManager{
                     }).catch((err) => {
                         reject("Hata");
                     })
+                }).catch((err) => {
+                    reject(err);
                 })
             }).catch((err) => {
                 reject("Hata");
             })
         })
     }
-
-    async signIn(email , password){
+ i 
+    async signIn(email , password){  
         return new Promise((resolve , reject) => {
             userModel.findOne({ email : email}, (err , data) => {
                 if (err) 
@@ -71,6 +63,7 @@ class userDataManager{
                 const userPassword = data['password'];
                 const userId = data['userID'];
                 bcryptJS.compare(password , userPassword).then((result) => {
+                    console.log("Kullanıcı şifre karşılaştırmaası");
                     console.log(result);
                     if (result == true) {
                          const payLoad = {
@@ -100,15 +93,13 @@ class userDataManager{
     }
     async getUserById(user_id){
         return new Promise((resolve , reject) => {
-            userModel.findById(user_id , (err,data) =>{
+            userModel.findOne({ userID : user_id } , (err,data) =>{
                 if (err)
                     reject("Hata");
                  resolve(data);
             });
         })
     }
-
-
     async getAllUsers(){
         return new Promise((resolve , reject) =>{
             userModel.find({} , (err, data) => {
@@ -119,6 +110,13 @@ class userDataManager{
         })
     }
 
+    async getUserFavorites(user_id){
+        return new Promise((resolve , reject) => {
+            userModel.getUserBooks(user_id)
+            .then((data) => {resolve(data)})
+            .catch((err) => {reject(err)})
+        })
+    }
 
     async setUserToken(id , userToken){
         return new Promise((resolve , reject) => {
@@ -131,6 +129,19 @@ class userDataManager{
                     reject(err);
                 resolve(data);
             }) 
+        })
+    }
+
+    async removeUserToken(id , token){
+        return new Promise((resolve , reject) => {
+           tokenModel.findOneAndRemove({
+            userId : id, 
+            token : token
+           } , (err , data) => {
+                     if (err)
+                        reject(err);
+                    resolve(data);
+           })
         })
     }
 }

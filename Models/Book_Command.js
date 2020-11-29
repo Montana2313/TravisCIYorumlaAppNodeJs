@@ -31,4 +31,33 @@ const Book_Comment_Schema = new Schema(
 );
 
 
-module.exports = mongoose.model('Book_Command',Book_Comment_Schema);
+var comments = module.exports = mongoose.model('Book_Command',Book_Comment_Schema);
+
+
+module.exports.getCommentById = async function (book_id) {
+    return new Promise((resolve , rejecet) => {
+        comments.find({
+            commentToBookId : book_id
+        } , (err , data) => {
+            if (err) 
+                reject(err);
+            resolve(data);
+        })
+    })
+}
+
+module.exports.setComment = async function (userId , comment , book_id , isAuthor) {
+    return new Promise((resolve , reject) => {
+        const commentModel = new comments({
+            comment_by : userId ,
+            commentToBookId : book_id, 
+            comment : comment,
+            isAuthor : isAuthor
+        })
+        commentModel.save((err ,data) => {
+            if (err) 
+                reject(err);
+            resolve(data);
+        })
+    })
+}

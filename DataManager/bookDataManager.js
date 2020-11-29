@@ -6,8 +6,8 @@ const bookComment = require('../Models/Book_Command');
 
 const authorDataManager = require('../DataManager/authorDataManager');
 const userDataManager = require('../DataManager/userDataManager');
-
-
+const mongoclient  =  require('mongodb').MongoClient;
+const uri = "mongodb://localhost:27017/";
 
 class bookDataManager{
 
@@ -17,22 +17,18 @@ class bookDataManager{
 
     async search(text){
         return new Promise((resolve , reject) =>{
-            bookModel.find (
-                {
-                    bookName : {$regex :  text }
-                },
-                (err ,data) => {
-                    if (err)
-                          reject(err);
-                    resolve(data);
-                }
-            )});
+            bookModel.search(text).then((data)=> {
+                resolve(data);
+            }).catch((err) => {
+                reject(err);
+            })
+        });
     }
 
 
     async getAll(){
         return new Promise((resolve , reject) =>{
-            bookModel.find(
+            bookModel.getAll(
                 {  }
                  , (err , data) => {
                 if (err)
@@ -43,60 +39,49 @@ class bookDataManager{
         });
     }
 
+    async getBooksByAuthor(name){
+        return new Promise((resolve , reject) => {
+            bookModel.getBooksByAuthor(name).then((data) => {
+                resolve(data);
+            }).catch((err) => {
+                reject(err);
+            })
+        })
+    }
+
     async getBookComments(bookId){
         return new Promise((resolve , reject) => {
-            bookComment.find({
-                commentToBookId : bookId
-            } , (err , data) => {
-                if (err) 
-                    reject(err);
-
+            bookComment.getCommentById(bookId).then((data) => {
                 for (let item in data){
                     const id = data[item]['comment_by'];
-                    // burada hata varrrrrrr
                     userDataManager.getUserById(id).then((userInfo) => {
-                        data[item]['comment_by'] = userInfo['name'];
+                        console.log(userInfo['name'] + " "+ userInfo['surname']);
+                        data[item]['comment_by'] = userInfo['name'] + " "+ userInfo['surname'];
                     }).catch((err) => {
                         reject("hata");
                     })
                 }
-
-
                 resolve(data);
+            }).catch((err) => {
+                reject(err);
             })
         })
     }
     async setBookComment(user_id , bookId , comment){
         return new Promise((resolve , reject) => {
             authorDataManager.isUserAuthor(user_id).then((data) => {
-                const commentModel = new bookComment({
-                    comment_by : user_id ,
-                    commentToBookId : bookId, 
-                    comment : comment,
-                    isAuthor : true
-                })
-                commentModel.save((err ,data) => {
-                    if (err){
-                        reject(null);
-                    }
-                    resolve(data);
+                bookComment.setComment(user_id , comment , bookId , true).then((data) => {
+                    resolve(data)
+                }).catch((err)=> {
+                    reject(err)
                 })
             }).catch((err) => {
-                const comment = new bookComment({
-                    comment_by : user_id ,
-                    commentToBookId : bookId, 
-                    comment : comment,
-                    isAuthor : false
+                bookComment.setComment(user_id , comment , bookId , false).then((data) => {
+                    resolve(data)
+                }).catch((err)=> {
+                    reject(err)
                 })
-                comment.save((err ,data) => {
-                    if (err){
-                        reject(null);
-                    }
-                    resolve(data);
-                })
-
-                
-            })
+          })
             
         })
     }

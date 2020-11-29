@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+
 const dataManager = require('../DataManager/userDataManager');
+const userSelections = require('../Models/UserSelections');
 
 const bcryptJS = require('bcryptjs');
 
@@ -51,8 +53,10 @@ router.post('/signUp', (req, res) => {
 router.get('/signIn/:email/:password', (req, res) => {
    const email = req.params.email;
    const password = req.params.password;
+   console.log(email);
+   console.log(password);
     dataManager.signIn(email, password).then((data)=> {
-    res.json(data);
+        res.json(data);
     })
     .catch((err)=> {
         res.json({
@@ -75,10 +79,66 @@ router.get('/getUserInfoById/:id' , (req,res) =>{
     })
 });
 
+router.get('/getFavorites/:id' , (req ,res)=>{
+    const user_id = req.params.id;
+    dataManager.getUserFavorites(user_id).then((data)=>{
+        res.json(data);
+    }).catch((error) => {
+        res.json({
+            success :false,
+            explain : 'UserId not found'
+        })
+    })
+})
+
 router.get('/getAll' , (req , res) => {
     dataManager.getAllUsers().then((data)=>{
         res.json(data);
     }).catch((error)=> {
+        res.json({
+            success : false , 
+            explain : "Kullanıcı listesi bulunamadı"
+        })
+    })
+})
+//MARK:-> User Selections
+router.get('/getSelections/:id' , (req ,res) => {
+    const user_id = req.params.id;
+    userSelections.getSelectionByUserId(user_id)
+    .then((data) => {
+        res.json(data);
+    }).catch((err) => {
+        res.json({
+            success : false , 
+            explain : "Kullanıcı listesi bulunamadı"
+        })
+    })
+})
+
+router.post('/setSelections' , (req ,res) => {
+    const userID = req.body['userID'];
+    const selections = req.body['selections'];
+
+    userSelections.setSelections(userID , selections)
+    .then((data) => {
+        res.json(data);
+    }).catch((err) =>{
+        res.json({
+            success : false , 
+            explain : "Hata"
+        })
+    })
+})
+
+router.get('/deleteToken/:userId/:token' , (req ,res) => {
+    const user_id = req.params.userId;
+    const token = req.params.token;
+    dataManager.removeUserToken(user_id , token).then((data) => {
+        res.json({
+            success : false , 
+            explain : "OK"
+        })
+    }).catch((err) => {
         res.json({
             success : false , 
             explain : "Kullanıcı listesi bulunamadı"

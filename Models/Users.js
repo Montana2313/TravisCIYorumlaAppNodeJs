@@ -33,6 +33,11 @@ const UserSchema = new Schema (
             type:Boolean,
             require : true,
             default : false
+        },
+        books : {
+            type : [String] , 
+            required : false,
+            default : []
         }
     }
 
@@ -41,4 +46,35 @@ const UserSchema = new Schema (
 )
 
 
-module.exports = mongoose.model('Users',UserSchema);
+const userModel =  module.exports = mongoose.model('Users',UserSchema);
+
+module.exports.getUserBooks = async function (userID) {
+    return new Promise((resolve , reject) => {
+        userModel.findOne({
+            userID : userID
+        } , 'books'  , (err ,data) => {
+            if (err)
+                 reject(err);
+            resolve(data);
+        })
+    })
+}
+
+module.exports.signUp = async function (name , surname , email , password , photo_URL , isPremium) {
+    return new Promise((resolve , reject) =>  {
+        const model = new userModel({
+            name : name,
+            surname : surname,
+            email : email,
+            password : hash,
+            photo_URL : photo_URL,
+            isPremium : isPremium
+        })
+
+        model.save((err , data) => {
+            if (err)
+                reject(err);
+            resolve(data)
+        })
+    })
+}

@@ -46,7 +46,19 @@ router.post('/setBook' , function (req ,res , next){
 });
 
 router.get('/getAll' , (req, res, next) => {
-    dataManager.getAll().then((data)=> {
+    bookModel.getAll().then((data) => {
+        res.json(data);
+    }).catch((err) => {
+        res.json({
+            success : false,
+            explain : "Not Found"
+        })
+    })
+});
+
+router.get('/getById/:id' , (req, res, next) => {
+    const id = req.params.id;
+    bookModel.getById(id).then((data) => {
         res.json(data);
     }).catch((err)=> {
         res.json({
@@ -54,19 +66,19 @@ router.get('/getAll' , (req, res, next) => {
             explain : "Bulunamadı"
         })
     })
-});
-
-router.get('/getById/:id' , (req, res, next) => {
-    const id = req.params.id;
-    bookModel.findById(id , (err,data)=>{
-        if (err)
-            res.send(err);
-        else {
-            res.json(data);
-        }
-    });
     // bunun  birde findOne versiyonu var o bişeyle karşılaitığında ilk bulduğunu getirir
 });
+router.post('/getBooksByAuthor' , (req ,res) => {
+    const author = req.body['author'];
+    dataManager.getBooksByAuthor(author).then((data) => {
+        res.json(data);
+    }).catch((err) => {
+        res.json({
+            success : false,
+            explain : "Bulunamadı"
+        })
+    })
+})
 
 router.get('/update' ,(req, res) => {
    bookModel.update(
